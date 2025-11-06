@@ -7,6 +7,7 @@
 // Node-Modules
 // --------------------------------------------------
 import mongoose, { connect, ConnectOptions, disconnect } from 'mongoose';
+import { ServerApiVersion } from 'mongodb';
 
 // --------------------------------------------------
 // Custom Modules
@@ -20,7 +21,7 @@ const clientOptions: ConnectOptions = {
   dbName: 'Learning-Management-System',
   appName: 'Learning-Management-System',
   serverApi: {
-    version: '1',
+    version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
   },
@@ -29,7 +30,6 @@ const clientOptions: ConnectOptions = {
 // --------------------------------------------------
 // MongoDB Connection
 // --------------------------------------------------
-
 export const connectDB = async (): Promise<void> => {
   try {
     const conn = await connect(ENV.MONGO_URI, clientOptions);
@@ -49,7 +49,6 @@ export const connectDB = async (): Promise<void> => {
 // --------------------------------------------------
 // MongoDB Disconnect
 // --------------------------------------------------
-
 export const disconnectDB = async (): Promise<void> => {
   try {
     await disconnect();
@@ -64,37 +63,31 @@ export const disconnectDB = async (): Promise<void> => {
 };
 
 // --------------------------------------------------
-// Graceful Shutdown Handler
+// Graceful Shutdown
 // --------------------------------------------------
-
-export const handleDBShutdownSignals = (): void => {
-  // SIGINT (ctrl + c)
-  process.on('SIGINT', async () => {
-    console.log(`\n⚙️ Received SIGINT signal. Closing MongoDB Connection..`);
-    await gracefulShutdown('SIGINT');
-  });
-
-  // SIGTERM (Process Stop/kill)
-  process.on('SIGTERM', async () => {
-    console.log(`\n⚙️ Received  signal. Closing MongoDB Connection..`);
-    await gracefulShutdown('SIGTERM');
-  });
-};
-
-// --------------------------------------------------
-// Graceful Shutdown Handler
-// --------------------------------------------------
-export const gracefulShutdown = async (signal: string): Promise<void> => {
+const gracefulShutdown = async (signal: string): Promise<void> => {
   try {
     await mongoose.connection.close();
     console.log(`🧩 MongoDB connection closed due to ${signal}`);
     process.exit(0);
   } catch (error) {
     if (error instanceof Error) {
-      console.log(`❌ Error during MongoDB shutdown (${signal}): ${error}`);
+      console.error(`❌ Error during MongoDB shutdown (${signal}): ${error}`);
     } else {
-      console.log(`❌ Error during MongoDB shutdown (${signal})}`);
+      console.error(`❌ Error during MongoDB shutdown (${signal})`);
     }
     process.exit(1);
   }
+};
+
+export const handleDBShutdownSignals = (): void => {
+  process.on('SIGINT', async () => {
+    console.log(`\n⚙️ Received SIGINT signal. Closing MongoDB Connection..`);
+    await gracefulShutdown('SIGINT');
+  });
+
+  process.on('SIGTERM', async () => {
+    console.log(`\n⚙️ Received SIGTERM signal. Closing MongoDB Connection..`);
+    await gracefulShutdown('SIGTERM');
+  });
 };
