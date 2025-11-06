@@ -13,6 +13,7 @@ import { ServerApiVersion } from 'mongodb';
 // Custom Modules
 // --------------------------------------------------
 import { ENV } from '@config/env.config';
+import { logger } from '@lib/logger';
 
 // --------------------------------------------------
 // Client Options
@@ -33,14 +34,14 @@ const clientOptions: ConnectOptions = {
 export const connectDB = async (): Promise<void> => {
   try {
     const conn = await connect(ENV.MONGO_URI, clientOptions);
-    console.log(
+    logger.info(
       `✅ MongoDB Connected: ${conn.connection.host}/${conn.connection.name}`
     );
   } catch (error) {
     if (error instanceof Error) {
-      console.error(`❌ MongoDB connection Failed: ${error.message}`);
+      logger.error(`❌ MongoDB connection Failed: ${error.message}`);
     } else {
-      console.error(`❌ MongoDB connection Failed: Unknown error occurred`);
+      logger.error(`❌ MongoDB connection Failed: Unknown error occurred`);
     }
     process.exit(1);
   }
@@ -52,12 +53,12 @@ export const connectDB = async (): Promise<void> => {
 export const disconnectDB = async (): Promise<void> => {
   try {
     await disconnect();
-    console.log(`🛑 MongoDB Disconnected Successfully`);
+    logger.info(`🛑 MongoDB Disconnected Successfully`);
   } catch (error) {
     if (error instanceof Error) {
-      console.error(`⚠️ MongoDB Disconnect Error: ${error.message}`);
+      logger.error(`⚠️ MongoDB Disconnect Error: ${error.message}`);
     } else {
-      console.error(`⚠️ MongoDB Disconnect Error: Unknown error occurred`);
+      logger.error(`⚠️ MongoDB Disconnect Error: Unknown error occurred`);
     }
   }
 };
@@ -68,13 +69,13 @@ export const disconnectDB = async (): Promise<void> => {
 const gracefulShutdown = async (signal: string): Promise<void> => {
   try {
     await mongoose.connection.close();
-    console.log(`🧩 MongoDB connection closed due to ${signal}`);
+    logger.info(`🧩 MongoDB connection closed due to ${signal}`);
     process.exit(0);
   } catch (error) {
     if (error instanceof Error) {
-      console.error(`❌ Error during MongoDB shutdown (${signal}): ${error}`);
+      logger.error(`❌ Error during MongoDB shutdown (${signal}): ${error}`);
     } else {
-      console.error(`❌ Error during MongoDB shutdown (${signal})`);
+      logger.error(`❌ Error during MongoDB shutdown (${signal})`);
     }
     process.exit(1);
   }
@@ -82,12 +83,12 @@ const gracefulShutdown = async (signal: string): Promise<void> => {
 
 export const handleDBShutdownSignals = (): void => {
   process.on('SIGINT', async () => {
-    console.log(`\n⚙️ Received SIGINT signal. Closing MongoDB Connection..`);
+    logger.info(`\n⚙️ Received SIGINT signal. Closing MongoDB Connection..`);
     await gracefulShutdown('SIGINT');
   });
 
   process.on('SIGTERM', async () => {
-    console.log(`\n⚙️ Received SIGTERM signal. Closing MongoDB Connection..`);
+    logger.info(`\n⚙️ Received SIGTERM signal. Closing MongoDB Connection..`);
     await gracefulShutdown('SIGTERM');
   });
 };

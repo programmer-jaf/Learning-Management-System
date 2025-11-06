@@ -18,6 +18,7 @@ import {
   disconnectDB,
   handleDBShutdownSignals,
 } from '@config/db.config';
+import { logger } from '@lib/logger';
 
 // --------------------------------------------------
 // Server instance
@@ -28,17 +29,18 @@ let server: Server;
 // Graceful Shutdown
 // --------------------------------------------------
 const shutdown = async (signal: string) => {
-  console.log(`\n⚙️ Received ${signal}. Shutting down server...`);
+  logger.info(`\n⚙️ Received ${signal}. Shutting down server...`);
   try {
     if (server) {
       server.close(() => {
-        console.log('🛑 Express server closed');
+        logger.info('🛑 Express server closed');
       });
     }
     await disconnectDB();
     process.exit(0);
   } catch (error) {
-    console.error(`❌ Error during shutdown (${signal}):`, error);
+    logger.error(`❌ Error during shutdown (${signal}):`);
+    console.error(error);
     process.exit(1);
   }
 };
@@ -55,15 +57,17 @@ const startServer = async () => {
     await connectDB();
     handleDBShutdownSignals(); // Optional: handles extra DB signals if used
     server = app.listen(ENV.PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${ENV.PORT}`);
+      logger.info(`🚀 Server running on http://localhost:${ENV.PORT}`);
     });
 
     server.on('error', (err: Error) => {
-      console.error('❌ Server error:', err);
+      logger.error('❌ Server error:');
+      console.error(err);
       process.exit(1);
     });
   } catch (error) {
-    console.error('❌ Failed to start server:', error);
+    logger.error('❌ Failed to start server:');
+    console.error(error);
     process.exit(1);
   }
 };

@@ -3,6 +3,7 @@
  * @license Apache-2.0
  */
 
+import { logger } from '@lib/logger';
 import dotenv from 'dotenv';
 import path from 'path';
 import { z } from 'zod';
@@ -92,8 +93,8 @@ const envSchema = z.object({
 
 const parsedEnv = envSchema.safeParse(process.env);
 if (!parsedEnv.success) {
-  console.error('❌ Invalid or Missing env variables: ');
-  console.error(parsedEnv.error.format());
+  logger.error('❌ Invalid or Missing env variables: ');
+  logger.error(parsedEnv.error.format());
   process.exit(1);
 }
 // --------------------------------------------------
