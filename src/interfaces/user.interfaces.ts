@@ -1,3 +1,12 @@
+/**
+ * Copyright 2025 Programmer-Jaf
+ * @license Apache-2.0
+ */
+
+// --------------------------------------------------
+// Node Modules
+// --------------------------------------------------
+
 import { Document } from 'mongoose';
 
 export interface IUser extends Document {

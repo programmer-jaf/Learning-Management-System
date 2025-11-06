@@ -1,3 +1,12 @@
+/**
+ * Copyright 2025 Programmer-Jaf
+ * @license Apache-2.0
+ */
+
+// --------------------------------------------------
+// Node Modules
+// --------------------------------------------------
+
 import { Types } from 'mongoose';
 
 export interface IProgress extends Document {
