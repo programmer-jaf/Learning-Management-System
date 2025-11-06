@@ -17,6 +17,7 @@ import morgan from 'morgan';
 // Custom Modules
 // --------------------------------------------------
 import { ENV } from '@config/env.config';
+import { logger } from '@lib/logger';
 
 // --------------------------------------------------
 // Initialize Express
@@ -104,7 +105,7 @@ app.get('api/1/health', (req: Request, res: Response) => {
 // Global Error Handler
 // --------------------------------------------------
 app.use((err: Error, req: Request, res: Response) => {
-  console.error(err);
+  logger.error(err);
   res.status(500).json({
     status: 'error',
     message: err.message || 'Internal Server Error',

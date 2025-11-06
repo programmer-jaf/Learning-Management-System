@@ -20,9 +20,9 @@
       "@models/*": ["models/*"],
       "@routes/*": ["routes/*"],
       "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"]
-      
-    },
+      "@utils/*": ["utils/*"],
+      "@lib/*": ["lib/*"]
+    }
   },
   "include": ["src/**/*", "src/**/*.ts"],
   "exclude": ["node_modules/**/*", "dist/**/*", "build/**/*"]
