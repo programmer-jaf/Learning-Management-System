@@ -8,6 +8,7 @@ export interface IUser extends Document {
   password: string;
   role: 'student' | 'instructor' | 'admin';
   bio?: string;
+  field?: string;
   title?: string;
   image?: string;
   social?: {
