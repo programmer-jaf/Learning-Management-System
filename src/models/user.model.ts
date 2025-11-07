@@ -4,49 +4,51 @@
  */
 
 // --------------------------------------------------
-// Node-Modules
+// Node Modules
 // --------------------------------------------------
 import { Schema, model } from 'mongoose';
-
 // --------------------------------------------------
 // Custom-Modules
 // --------------------------------------------------
 import { IUser } from '@interfaces/user.interfaces';
 
 // --------------------------------------------------
-// User-Schema
+// User Schema
 // --------------------------------------------------
+
 const userSchema = new Schema<IUser>(
   {
     firstName: {
       type: String,
-      trim: true,
       required: true,
-      minLength: [3, 'first Name at least character'],
-      maxLength: [50, 'first Name cant be greater than 50 character'],
+      trim: true,
+      minlength: 3,
+      maxlength: 50,
     },
     lastName: {
       type: String,
-      trim: true,
       required: true,
-      minLength: [3, 'last Name at least character'],
-      maxLength: [50, 'last Name cant be greater than 50 character'],
+      trim: true,
+      minlength: 3,
+      maxlength: 50,
     },
     username: {
       type: String,
       required: true,
+      unique: true,
+      trim: true,
     },
     email: {
       type: String,
-      trim: true,
       required: true,
       unique: true,
+      trim: true,
     },
     password: {
       type: String,
-      trim: true,
       required: true,
-      minLength: [8, 'password length must be at least 8'],
+      select: false,
+      minlength: 8,
     },
     role: {
       type: String,
@@ -54,10 +56,12 @@ const userSchema = new Schema<IUser>(
       default: 'student',
     },
     bio: {
-      typ: String,
+      type: String,
+      trim: true,
     },
     title: {
-      typ: String,
+      type: String,
+      trim: true,
     },
     image: {
       type: String,
@@ -66,29 +70,36 @@ const userSchema = new Schema<IUser>(
       type: String,
     },
     social: {
-      facebook: {
-        type: String,
-      },
-      instagram: {
-        type: String,
-      },
-      twitter: {
-        type: String,
-      },
-      whatsapp: {
-        type: String,
-      },
-      youtube: {
-        type: String,
-      },
-      website: {
-        type: String,
-      },
+      facebook: String,
+      instagram: String,
+      twitter: String,
+      whatsapp: String,
+      youtube: String,
+      website: String,
     },
     isVerified: {
       type: Boolean,
       default: false,
     },
+    wishlist: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Wishlist',
+      },
+    ],
+    cart: [{ type: Schema.Types.ObjectId, ref: 'Cart' }],
+    purchased: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Purchase',
+      },
+    ],
+    watching: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Watch',
+      },
+    ],
   },
   {
     timestamps: true,
