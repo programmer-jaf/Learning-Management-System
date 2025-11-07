@@ -6,7 +6,7 @@
 // --------------------------------------------------
 // Node Modules
 // --------------------------------------------------
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import cors, { CorsOptions } from 'cors';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
@@ -17,7 +17,7 @@ import morgan from 'morgan';
 // Custom Modules
 // --------------------------------------------------
 import { ENV } from '@config/env.config';
-import { logger } from '@lib/logger';
+import { errorHandler } from '@middlewares/error.middlewares';
 
 // --------------------------------------------------
 // Initialize Express
@@ -104,12 +104,6 @@ app.get('/api/v1/health', (_req, res) => {
 // --------------------------------------------------
 // Global Error Handler
 // --------------------------------------------------
-app.use((err: Error, req: Request, res: Response) => {
-  logger.error(err);
-  res.status(500).json({
-    status: 'error',
-    message: err.message || 'Internal Server Error',
-  });
-});
+app.use(errorHandler);
 
 export default app;
