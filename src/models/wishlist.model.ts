@@ -11,20 +11,20 @@ import { Schema, model } from 'mongoose';
 // --------------------------------------------------
 // Custom-Modules
 // --------------------------------------------------
-import { IWishlist } from '@interfaces/wishlist.interfaces';
+import { IWishlistItem } from '@interfaces/wishlist.interfaces';
 
 // --------------------------------------------------
 // WishList Schema
 // --------------------------------------------------
 
-const wishlistSchema = new Schema<IWishlist>(
+const wishlistSchema = new Schema<IWishlistItem>(
   {
-    user: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    course: {
+    courseId: {
       type: Schema.Types.ObjectId,
       ref: 'Course',
       required: true,

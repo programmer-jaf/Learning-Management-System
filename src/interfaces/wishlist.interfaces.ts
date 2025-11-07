@@ -9,8 +9,8 @@
 
 import { Document, Types } from 'mongoose';
 
-export interface IWishlist extends Document {
-  user: Types.ObjectId;
-  course: Types.ObjectId;
+export interface IWishlistItem extends Document {
+  userId: Types.ObjectId;
+  courseId: Types.ObjectId;
   createdAt: Date;
 }
