@@ -11,6 +11,7 @@ import { Request, Response } from 'express';
 // --------------------------------------------------
 // Custom Modules
 // --------------------------------------------------
+import { signupServices } from '../services/signup.services';
 
 // --------------------------------------------------
 // sign-up controller
@@ -20,12 +21,23 @@ export const signupController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { firstName, lastName, email, password } = await req.body;
-    console.log(`${firstName},${lastName},${email},${password}`);
-    res.status(200).json({
+    const { firstName, lastName, username, email, password } = req.body;
+
+    const user = await signupServices({
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    });
+
+    res.status(201).json({
       success: true,
       status: 'success',
       message: 'Sign-up successful',
+      data: {
+        user,
+      },
     });
   } catch (error: unknown) {
     const message =
