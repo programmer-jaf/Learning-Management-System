@@ -18,7 +18,7 @@ const router = Router();
 // --------------------------------------------------
 router.get('/');
 router.post('/mark-as-read/:id');
-router.delete('/mark-as-read/:id');
+router.delete('/:id');
 
 // --------------------------------------------------
 // Export Router

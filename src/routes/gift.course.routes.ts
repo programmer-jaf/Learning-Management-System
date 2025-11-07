@@ -18,7 +18,7 @@ const router = Router();
 // --------------------------------------------------
 router.post('/');
 router.get('/history');
-router.post('/saved-card');
+router.post('/save-card');
 router.get('/saved-cards');
 
 // --------------------------------------------------

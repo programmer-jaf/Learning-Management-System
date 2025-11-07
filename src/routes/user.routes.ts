@@ -19,7 +19,7 @@ const router = Router();
 router.get('/me');
 router.put('/update');
 router.put('/change-password');
-router.post('/update-photo');
+router.post('/upload-photo');
 
 // --------------------------------------------------
 // Export Router

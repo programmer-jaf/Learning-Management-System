@@ -16,9 +16,9 @@ const router = Router();
 // --------------------------------------------------
 // Instructor Course Routes
 // --------------------------------------------------
-router.post('/course/');
-router.post('/course/:courseId');
-router.delete('/course/:courseId');
+router.post('/courses');
+router.post('/courses/:courseId');
+router.delete('/courses/:courseId');
 
 // --------------------------------------------------
 // Instructor Dashboard Routes
@@ -44,7 +44,7 @@ router.post('/chat/:studentId');
 //  Instructor Settings Routes
 // --------------------------------------------------
 router.put('/settings/profile');
-router.put('/settings/socials');
+router.put('/settings/social');
 router.put('/settings/notifications');
 router.put('/settings/change-password');
 // --------------------------------------------------

@@ -17,12 +17,12 @@ const router = Router();
 // User Dashboard Routes
 // --------------------------------------------------
 router.get('/');
-router.get('/course');
+router.get('/courses');
 router.get('/active');
 router.get('/completed');
 router.get('/purchase-history');
 router.get('/wishlist');
-router.get('/message');
+router.get('/messages');
 router.get('/settings');
 
 // --------------------------------------------------

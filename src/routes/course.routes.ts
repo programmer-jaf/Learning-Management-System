@@ -27,18 +27,10 @@ router.get('/:courseId/feedback');
 // Course Enrollment & Purchase Routes
 // --------------------------------------------------
 router.post('/:courseId/enroll');
-router.post('/:courseId/');
+router.post('/:courseId/add-to-cart');
 router.post('/:courseId/buy');
 router.post('/:courseId/gift');
 router.post('/:courseId/wishlist');
-
-// --------------------------------------------------
-// Watch Course Routes
-// --------------------------------------------------
-router.get('/:courseId/watch');
-router.get('/:courseId/watch/lecture/:lectureId');
-router.post('/:courseId/watch/lecture/:lectureId/comments');
-router.post('/:courseId/review');
 
 // --------------------------------------------------
 // Export Router
