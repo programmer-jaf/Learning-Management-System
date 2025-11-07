@@ -6,21 +6,23 @@
 // --------------------------------------------------
 // Node Modules
 // --------------------------------------------------
-
 import { Document, Types } from 'mongoose';
+
+export interface IGiftPayment {
+  cardName?: string;
+  cardNumber?: string;
+  expiry?: string;
+  cvc?: string;
+  rememberCard?: boolean;
+}
 
 export interface IGiftCourse extends Document {
   sender: Types.ObjectId;
-  recipientName: string;
-  recipientEmail: string;
-  course: Types.ObjectId;
+  recipientName?: string;
+  recipientEmail?: string;
   message?: string;
-  payment: {
-    cardName: string;
-    cardNumber: string;
-    expiry: string;
-    cvc: string;
-    rememberCard: boolean;
-  };
+  course: Types.ObjectId;
+  payment?: IGiftPayment;
   createdAt: Date;
+  updatedAt: Date;
 }

@@ -6,14 +6,14 @@
 // --------------------------------------------------
 // Node Modules
 // --------------------------------------------------
+import { Document, Types } from 'mongoose';
 
-import { Types } from 'mongoose';
-
-export interface IProgress extends Document {
-  user: Types.ObjectId;
-  course: Types.ObjectId;
-  completedLectures: Types.ObjectId[];
-  progressPercentage: number;
+export interface IWatchItem extends Document {
+  userId: Types.ObjectId;
+  courseId: Types.ObjectId;
+  lectureId?: Types.ObjectId; // optional if tracking specific lecture
+  progress: number; // percentage completed, e.g., 0-100
+  lastWatchedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }

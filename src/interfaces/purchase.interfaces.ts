@@ -4,17 +4,23 @@
  */
 
 // --------------------------------------------------
-// Node Modules
+// Node-Modules
 // --------------------------------------------------
-
 import { Document, Types } from 'mongoose';
 
-export interface IPurchase extends Document {
-  user: Types.ObjectId;
-  course: Types.ObjectId;
-  price: number;
-  paymentMethod: 'credit' | 'debit' | 'stripe';
-  transactionId: string;
-  status: 'success' | 'failed' | 'pending';
+export interface IPurchaseItem extends Document {
+  userId: Types.ObjectId;
+  courseId: Types.ObjectId;
+
+  amount: number; // course price
+  currency: string; // e.g., 'USD'
+  paymentMethod?: string; // 'stripe', 'paypal', etc.
+  transactionId?: string; // gateway transaction id
+  status: 'success' | 'failed' | 'pending'; // transaction status
+
+  purchasedAt: Date; // timestamp
+  completed: boolean; // true if purchase is successful
+
   createdAt: Date;
+  updatedAt: Date;
 }

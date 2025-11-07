@@ -14,8 +14,9 @@ import { Schema, model } from 'mongoose';
 import { ISection } from '@interfaces/curriculum.interfaces';
 
 // --------------------------------------------------
-// Section Schema
+// Curriculum Schema
 // --------------------------------------------------
+
 const curriculumSchema = new Schema<ISection>(
   {
     course: {
@@ -31,6 +32,7 @@ const curriculumSchema = new Schema<ISection>(
       {
         title: {
           type: String,
+          required: true,
         },
         videoUrl: {
           type: String,
@@ -41,14 +43,20 @@ const curriculumSchema = new Schema<ISection>(
         notes: {
           type: String,
         },
-        attachments: [String],
+        attachments: [
+          {
+            type: String,
+          },
+        ],
       },
     ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 // --------------------------------------------------
-// Section Model
+// Curriculum Model
 // --------------------------------------------------
 export const CurriculumModel = model<ISection>('Curriculum', curriculumSchema);

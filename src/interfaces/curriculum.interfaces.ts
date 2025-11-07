@@ -6,18 +6,20 @@
 // --------------------------------------------------
 // Node Modules
 // --------------------------------------------------
-
 import { Document, Types } from 'mongoose';
+
+export interface ILecture {
+  title: string;
+  videoUrl?: string;
+  description?: string;
+  notes?: string;
+  attachments?: string[];
+}
+
 export interface ISection extends Document {
   course: Types.ObjectId;
   title: string;
-  lectures: {
-    title: string;
-    videoUrl?: string;
-    description?: string;
-    notes?: string;
-    attachments?: string[];
-  }[];
+  lectures: ILecture[];
   createdAt: Date;
   updatedAt: Date;
 }

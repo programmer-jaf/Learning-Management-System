@@ -14,21 +14,33 @@ import { Schema, model } from 'mongoose';
 import { IContact } from '@interfaces/contact.interfaces';
 
 // --------------------------------------------------
-// Contact Schema
+// Contact-Schema
 // --------------------------------------------------
 const contactSchema = new Schema<IContact>(
   {
     firstName: {
       type: String,
+      required: true,
+      trim: true,
     },
     lastName: {
       type: String,
+      trim: true,
     },
     email: {
       type: String,
+      required: true,
+      trim: true,
     },
     message: {
       type: String,
+      required: true,
+      trim: true,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'read', 'resolved'],
+      default: 'pending',
     },
   },
   {

@@ -13,24 +13,23 @@ import { Schema, model } from 'mongoose';
 // --------------------------------------------------
 import { ICart } from '@interfaces/cart.interfaces';
 
-// --------------------------------------------------
-// Cart Schema
-// --------------------------------------------------
 const cartSchema = new Schema<ICart>(
   {
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
     },
     items: [
       {
         course: {
           type: Schema.Types.ObjectId,
-          required: true,
           ref: 'Course',
+          required: true,
         },
         price: {
           type: Number,
+          required: true,
         },
       },
     ],
@@ -39,9 +38,7 @@ const cartSchema = new Schema<ICart>(
       default: 0,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 // --------------------------------------------------

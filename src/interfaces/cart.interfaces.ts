@@ -8,10 +8,16 @@
 // --------------------------------------------------
 import { Document, Types } from 'mongoose';
 
+export interface ICartItem {
+  course: Types.ObjectId;
+  price: number;
+}
+
 export interface ICart extends Document {
   user: Types.ObjectId;
-  items: [course: Types.ObjectId, price: number];
+  items: ICartItem[];
   totalPrice: number;
   createdAt: Date;
   updatedAt: Date;
 }
+

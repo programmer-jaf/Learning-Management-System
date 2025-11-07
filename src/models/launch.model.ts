@@ -20,20 +20,23 @@ import { ILaunch } from '@interfaces/launch.interfaces';
 
 const launchSchema = new Schema<ILaunch>(
   {
-    course: {
+    courseId: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: 'Course',
+      required: true,
     },
     launchDate: {
       type: Date,
       required: true,
     },
-    isNotified: {
+    isLaunched: {
       type: Boolean,
       default: false,
     },
-    notifiedUsers: [{ type: String }],
+    notificationsSent: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

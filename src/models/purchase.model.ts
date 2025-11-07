@@ -7,29 +7,35 @@
 // Node-Modules
 // --------------------------------------------------
 import { Schema, model } from 'mongoose';
-
 // --------------------------------------------------
 // Custom-Modules
 // --------------------------------------------------
-import { IPurchase } from '@interfaces/purchase.interfaces';
+import { IPurchaseItem } from '@interfaces/purchase.interfaces';
 
 // --------------------------------------------------
 // Purchase Schema
 // --------------------------------------------------
-const purchaseSchema = new Schema<IPurchase>(
+const purchaseSchema = new Schema<IPurchaseItem>(
   {
-    user: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    course: {
+    courseId: {
       type: Schema.Types.ObjectId,
       ref: 'Course',
       required: true,
     },
-    price: {
+
+    amount: {
       type: Number,
+      required: true,
+    },
+    currency: {
+      type: String,
+      required: true,
+      default: 'USD',
     },
     paymentMethod: {
       type: String,
@@ -42,13 +48,20 @@ const purchaseSchema = new Schema<IPurchase>(
       enum: ['success', 'failed', 'pending'],
       default: 'success',
     },
+
+    purchasedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    completed: {
+      type: Boolean,
+      default: true,
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 // --------------------------------------------------
 // Purchase Model
 // --------------------------------------------------
-export const PurchaseModel = model<IPurchase>('Purchase', purchaseSchema);
+export const PurchaseModel = model<IPurchaseItem>('Purchase', purchaseSchema);

@@ -6,12 +6,12 @@
 // --------------------------------------------------
 // Node-Modules
 // --------------------------------------------------
-import { IGiftCourse } from '@interfaces/gift.interfaces';
 import { Schema, model } from 'mongoose';
 
 // --------------------------------------------------
 // Custom-Modules
 // --------------------------------------------------
+import { IGiftCourse } from '@interfaces/gift.interfaces';
 
 // --------------------------------------------------
 // Gift Schema

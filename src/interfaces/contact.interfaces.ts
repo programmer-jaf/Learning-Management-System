@@ -8,11 +8,13 @@
 // --------------------------------------------------
 
 import { Document } from 'mongoose';
+
 export interface IContact extends Document {
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
-  subject: string;
   message: string;
+  status?: 'pending' | 'read' | 'resolved';
   createdAt: Date;
+  updatedAt: Date;
 }
