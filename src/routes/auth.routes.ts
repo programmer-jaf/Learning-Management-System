@@ -6,8 +6,12 @@
 // --------------------------------------------------
 // Node-Modules
 // --------------------------------------------------
-import { signupController } from '@modules/auth/v1/controller/signup.controller';
 import { Router } from 'express';
+
+// --------------------------------------------------
+// Custom-Modules
+// --------------------------------------------------
+import { signupController } from '@modules/auth/v1/controller/signup.controller';
 
 // --------------------------------------------------
 // Initialize Router
