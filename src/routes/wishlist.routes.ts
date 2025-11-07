@@ -14,16 +14,10 @@ import { Router } from 'express';
 const router = Router();
 
 // --------------------------------------------------
-// User Dashboard Routes
+// Course Routes
 // --------------------------------------------------
-router.get('/');
-router.get('/course');
-router.get('/active');
-router.get('/completed');
-router.get('/purchase-history');
-router.get('/wishlist');
-router.get('/message');
-router.get('/settings');
+router.post('/:courseId');
+router.delete('/:courseId');
 
 // --------------------------------------------------
 // Export Router
