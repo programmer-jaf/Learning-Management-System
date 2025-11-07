@@ -14,12 +14,11 @@
     "paths": {
       "@config/*": ["config/*"],
       "@constants/*": ["constants/*"],
-      "@controllers/*": ["controllers/*"],
       "@interfaces/*": ["interfaces/*"],
       "@middlewares/*": ["middlewares/*"],
+      "@modules/*": ["modules/*"],
       "@models/*": ["models/*"],
       "@routes/*": ["routes/*"],
-      "@services/*": ["services/*"],
       "@utils/*": ["utils/*"],
       "@lib/*": ["lib/*"]
     }
