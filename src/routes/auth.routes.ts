@@ -6,6 +6,7 @@
 // --------------------------------------------------
 // Node-Modules
 // --------------------------------------------------
+import { signupController } from '@modules/auth/v1/controller/signup.controller';
 import { Router } from 'express';
 
 // --------------------------------------------------
@@ -13,16 +14,15 @@ import { Router } from 'express';
 // --------------------------------------------------
 const router = Router();
 
-
 // --------------------------------------------------
 // Auth Routes
 // --------------------------------------------------
-router.post('/signup');
-router.post('/signin');
-router.post('/signout');
-router.post('/forgot-password');
-router.post('/reset-password');
-router.post('/refresh-token');
+router.post('/signup', signupController);
+// router.post('/signin');
+// router.post('/signout');
+// router.post('/forgot-password');
+// router.post('/reset-password');
+// router.post('/refresh-token');
 
 // --------------------------------------------------
 // Export Router
