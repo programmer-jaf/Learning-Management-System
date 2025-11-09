@@ -31,14 +31,21 @@ export const signupController = async (
       password,
     });
 
-    res.status(201).json({
-      success: true,
-      status: 'success',
-      message: 'Sign-up successful',
-      data: {
-        user,
-      },
-    });
+    res
+      .status(201)
+      .cookie('token', user.accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+      })
+      .json({
+        success: true,
+        status: 'success',
+        message: 'Sign-up successful',
+        data: {
+          user,
+        },
+      });
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : 'Unknown Error during sign-up';
