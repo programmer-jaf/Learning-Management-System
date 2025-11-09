@@ -45,7 +45,7 @@ export const isAuthenticated = (
         message: 'Access Denied ',
       });
     }
-    req.user = decoded;
+    (req as any).user = decoded as JwtPayload;
     next();
   } catch (error: unknown) {
     const message =

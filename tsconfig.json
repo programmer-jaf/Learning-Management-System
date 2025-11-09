@@ -21,7 +21,8 @@
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"],
       "@lib/*": ["lib/*"]
-    }
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": ["src/**/*", "src/**/*.ts"],
   "exclude": ["node_modules/**/*", "dist/**/*", "build/**/*"]
