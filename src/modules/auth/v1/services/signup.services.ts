@@ -8,6 +8,7 @@
 // --------------------------------------------------
 import { UserModel } from '@models/user.model';
 import { hashedPassword } from '@lib/password';
+import { generateAccessToken, generateRefreshToken } from '@lib/generateToken';
 // --------------------------------------------------
 //  Custom Interface for Payload
 // --------------------------------------------------
@@ -27,11 +28,11 @@ export const signupServices = async (payload: ISignupPayload) => {
     /*
     1. check all the fields
     2. check if user already exists
-    3. hash password
-    3. create user
-    4. return user
-    5. create token
-    6. send token
+    3. Hash password using Bcrypt
+    4. Create User with default role
+    5. Generate Access & Refresh Token
+    6. Save Refresh Token in DB 
+    7. Send success response
     */
     //  1. check all the fields
     if (!firstName || !lastName || !username || !email || !password) {
@@ -53,9 +54,22 @@ export const signupServices = async (payload: ISignupPayload) => {
       password: passwordHashed,
     });
 
+    // 5. generate access & refresh token
+    const accessToken = await generateAccessToken({
+      id: user._id,
+      role: user.role,
+    });
+    const refreshToken = await generateRefreshToken({
+      id: user._id,
+      role: user.role,
+    });
+
+    // 6. save refresh token in DB
+    user.refreshToken = refreshToken;
     await user.save();
     return {
       user: user,
+      accessToken,
     };
   } catch (error) {
     const errMessage = error instanceof Error ? error.message : 'Unknown Error';

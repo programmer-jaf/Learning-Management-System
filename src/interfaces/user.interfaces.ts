@@ -12,7 +12,7 @@ import { Document, Types } from 'mongoose';
 // --------------------------------------------------
 // Custom-Modules
 // --------------------------------------------------
-import { IWishlist } from './wishlist.interfaces';
+import { IWishlistItem } from './wishlist.interfaces';
 import { ICart } from './cart.interfaces';
 import { IPurchaseItem } from './purchase.interfaces';
 import { IWatchItem } from './watch.interfaces';
@@ -46,7 +46,10 @@ export interface IUser extends Document {
   password: string;
   role: 'student' | 'instructor' | 'admin';
   isVerified: boolean;
-
+  // --------------------------------------------------
+  // refreshToken
+  refreshToken?: string;
+  // --------------------------------------------------
   // --------------------------------------------------
   // Profile
   // --------------------------------------------------
@@ -63,7 +66,7 @@ export interface IUser extends Document {
   // --------------------------------------------------
   // LMS Relations
   // --------------------------------------------------
-  wishlist: Types.ObjectId[] | IWishlist[];
+  wishlist: Types.ObjectId[] | IWishlistItem[];
   cart: Types.ObjectId[] | ICart[];
   purchased: Types.ObjectId[] | IPurchaseItem[];
   watching: Types.ObjectId[] | IWatchItem[];
