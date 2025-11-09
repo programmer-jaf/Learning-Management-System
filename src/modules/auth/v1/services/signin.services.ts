@@ -14,6 +14,7 @@
 import { generateAccessToken, generateRefreshToken } from '@lib/generateToken';
 import { comparePassword } from '@lib/password';
 import { UserModel } from '@models/user.model';
+import { Types } from 'mongoose';
 // --------------------------------------------------
 // Custom Interface
 interface ISigninPayload {
@@ -43,7 +44,6 @@ export const signinServices = async (payload: ISigninPayload) => {
     }
     // 2. check if user exists
     const user = await UserModel.findOne({ email }).lean();
-    console.log(user);
     if (!user) {
       throw new Error('User not found');
     }
@@ -56,11 +56,11 @@ export const signinServices = async (payload: ISigninPayload) => {
     }
     // 4. generate access & refresh token
     const accessToken = generateAccessToken({
-      _id: user._id,
+      id: user._id as Types.ObjectId,
       role: user.role,
     });
     const refreshToken = generateRefreshToken({
-      _id: user._id,
+      id: user._id as Types.ObjectId,
       role: user.role,
     });
     // 5. store refresh token in DB

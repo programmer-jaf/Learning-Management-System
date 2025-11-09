@@ -12,6 +12,7 @@ import { Request, Response } from 'express';
 // Custom Modules
 // --------------------------------------------------
 import { signinServices } from '@modules/auth/v1/services/signin.services';
+import { ENV } from '@config/env.config';
 
 // --------------------------------------------------
 // sign-in controller
@@ -25,10 +26,17 @@ export const signinController = async (
     const user = await signinServices({ email, password });
     res
       .status(200)
-      .cookie('token', user.accessToken, {
+      .cookie('access_token', user.accessToken, {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
+        maxAge: 1000 * 60 * 60 * 24,
+      })
+      .cookie('refreshToken', user.user.refreshToken, {
+        httpOnly: true,
+        secure: ENV.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({
         success: true,
@@ -44,6 +52,6 @@ export const signinController = async (
       status: 'error',
       message: err.message,
     });
-    console.log(`Error duing signin ${error}`);
+    console.log(`Error during signin ${error}`);
   }
 };

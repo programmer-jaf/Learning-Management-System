@@ -12,6 +12,7 @@ import { Request, Response } from 'express';
 // Custom Modules
 // --------------------------------------------------
 import { signupServices } from '../services/signup.services';
+import { ENV } from '@config/env.config';
 
 // --------------------------------------------------
 // sign-up controller
@@ -33,10 +34,17 @@ export const signupController = async (
 
     res
       .status(201)
-      .cookie('token', user.accessToken, {
+      .cookie('access_token', user.accessToken, {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
+        maxAge: 1000 * 60 * 60 * 24,
+      })
+      .cookie('refreshToken', user.user.refreshToken, {
+        httpOnly: true,
+        secure: ENV.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({
         success: true,
