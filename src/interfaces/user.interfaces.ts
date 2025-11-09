@@ -46,7 +46,10 @@ export interface IUser extends Document {
   password: string;
   role: 'student' | 'instructor' | 'admin';
   isVerified: boolean;
-
+  // --------------------------------------------------
+  // refreshToken
+  refreshToken?: string;
+  // --------------------------------------------------
   // --------------------------------------------------
   // Profile
   // --------------------------------------------------
