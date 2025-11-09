@@ -9,6 +9,7 @@
 import { UserModel } from '@models/user.model';
 import { hashedPassword } from '@lib/password';
 import { generateAccessToken, generateRefreshToken } from '@lib/generateToken';
+import { Types } from 'mongoose';
 // --------------------------------------------------
 //  Custom Interface for Payload
 // --------------------------------------------------
@@ -56,12 +57,14 @@ export const signupServices = async (payload: ISignupPayload) => {
 
     // 5. generate access & refresh token
     const accessToken = await generateAccessToken({
-      id: user._id,
+      id: user._id as Types.ObjectId,
       role: user.role,
+      type: 'access',
     });
     const refreshToken = await generateRefreshToken({
-      id: user._id,
+      id: user._id as Types.ObjectId,
       role: user.role,
+      type: 'refresh',
     });
 
     // 6. save refresh token in DB

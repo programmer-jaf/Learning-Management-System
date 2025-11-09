@@ -7,50 +7,68 @@
 // Node Modules
 // --------------------------------------------------
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+
 // --------------------------------------------------
 // Custom Modules
 // --------------------------------------------------
+import { verifyToken, MyJwtPayload } from '@lib/generateToken';
 import { ENV } from '@config/env.config';
+import { logger } from '@lib/logger';
 
 // --------------------------------------------------
-// Types for JWTPayload
+// Extend Express Request to include user
 // --------------------------------------------------
-interface JwtPayload {
-  id: string;
-  role: 'admin' | 'instructor' | 'student';
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: MyJwtPayload;
+  }
 }
 
 // --------------------------------------------------
 // isAuthenticated Middleware
 // --------------------------------------------------
-export const isAuthenticated = (
+export const isAuthenticated = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    // 1️⃣ Get token from headers or cookies
     const token =
       req.cookies['token'] || req.headers['authorization']?.split(' ')[1];
+
     if (!token) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
-        message: 'Authentication Required',
+        message: 'Authentication required',
       });
     }
-    const decoded = jwt.verify(token, ENV.ACCESS_TOKEN_SECRET) as JwtPayload;
-    if (!decoded) {
-      res.status(403).json({
+
+    // 2️⃣ Verify token
+    const decoded = verifyToken(token, ENV.ACCESS_TOKEN_SECRET);
+
+    // 3️⃣ Ensure it is an access token
+    if (decoded.type !== 'access') {
+      return res.status(403).json({
         success: false,
-        message: 'Access Denied ',
+        message: 'Invalid token type',
       });
     }
-    req.user = decoded;
+
+    // 4️⃣ Attach user to request object
+    req.user = {
+      id: decoded.id,
+      role: decoded.role,
+      type: decoded.type,
+    };
+
+    // 5️⃣ Proceed to next middleware
     next();
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'unknown error occurred';
-    res.status(500).json({
+      error instanceof Error ? error.message : 'Unknown authentication error';
+    logger.error(error);
+    res.status(401).json({
       success: false,
       message,
     });

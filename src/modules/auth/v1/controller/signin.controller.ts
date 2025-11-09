@@ -11,29 +11,21 @@ import { Request, Response } from 'express';
 // --------------------------------------------------
 // Custom Modules
 // --------------------------------------------------
-import { signupServices } from '../services/signup.services';
+import { signinServices } from '@modules/auth/v1/services/signin.services';
 import { ENV } from '@config/env.config';
 
 // --------------------------------------------------
-// sign-up controller
+// sign-in controller
 // --------------------------------------------------
-export const signupController = async (
+export const signinController = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { firstName, lastName, username, email, password } = req.body;
-
-    const user = await signupServices({
-      firstName,
-      lastName,
-      username,
-      email,
-      password,
-    });
-
+    const { email, password } = req.body;
+    const user = await signinServices({ email, password });
     res
-      .status(201)
+      .status(200)
       .cookie('access_token', user.accessToken, {
         httpOnly: true,
         secure: true,
@@ -48,19 +40,18 @@ export const signupController = async (
       })
       .json({
         success: true,
-        status: 'success',
-        message: 'Sign-up successful',
+        message: 'Sign-in successful',
         data: {
           user,
         },
       });
   } catch (error: unknown) {
-    const message =
-      error instanceof Error ? error.message : 'Unknown Error during sign-up';
+    const err = error instanceof Error ? error : new Error('Unknown error');
     res.status(500).json({
       success: false,
       status: 'error',
-      message,
+      message: err.message,
     });
+    console.log(`Error during signin ${error}`);
   }
 };
