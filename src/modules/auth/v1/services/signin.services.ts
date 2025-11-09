@@ -11,15 +11,21 @@
 // Custom Modules
 // --------------------------------------------------
 
+import { generateAccessToken, generateRefreshToken } from '@lib/generateToken';
+import { comparePassword } from '@lib/password';
+import { UserModel } from '@models/user.model';
 // --------------------------------------------------
 // Custom Interface
-
+interface ISigninPayload {
+  email: string;
+  password: string;
+}
 // --------------------------------------------------
 
 // --------------------------------------------------
 // sign-in services
 // --------------------------------------------------
-export const signinServices = async () => {
+export const signinServices = async (payload: ISigninPayload) => {
   try {
     /*
     Logic: sign-in
@@ -30,13 +36,45 @@ export const signinServices = async () => {
     5. store refresh token in DB
     6. send success response with userInfo
     */
+    // 1. validate payload
+    const { email, password } = payload;
+    if (!email || !password) {
+      throw new Error('All fields are required');
+    }
+    // 2. check if user exists
+    const user = await UserModel.findOne({ email }).lean();
+    console.log(user);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    // TODO: if user is banned
+
+    // 3. check password match with hashed password
+    const isPasswordMatch = await comparePassword(password, user.password);
+    if (!isPasswordMatch) {
+      throw new Error('Invalid password');
+    }
+    // 4. generate access & refresh token
+    const accessToken = generateAccessToken({
+      _id: user._id,
+      role: user.role,
+    });
+    const refreshToken = generateRefreshToken({
+      _id: user._id,
+      role: user.role,
+    });
+    // 5. store refresh token in DB
+    await UserModel.updateOne({ _id: user._id }, { refreshToken });
+    // 6. Don't send Password as response
+    const { password: _, ...safeUser } = user;
+    // 6. send success response with userInfo
 
     return {
-      success: true,
-      status: 'success',
-      message: 'Sign-in successful',
+      accessToken,
+      user: safeUser,
     };
   } catch (error) {
+    console.log(`error ${error}`);
     const err = error instanceof Error;
     throw err;
   }
