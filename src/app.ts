@@ -19,6 +19,7 @@ import morgan from 'morgan';
 import { ENV } from '@config/env.config';
 import { errorHandler } from '@middlewares/error.middlewares';
 import v1Routes from '@routes/index.routes';
+import { apiLimiter } from '@middlewares/rateLimiter.middlewares';
 // --------------------------------------------------
 // Initialize Express
 // --------------------------------------------------
@@ -104,7 +105,7 @@ app.get('/api/v1/health', (_req, res) => {
 // --------------------------------------------------
 // API Routes v1
 // --------------------------------------------------
-app.use('/api/v1', v1Routes);
+app.use('/api/v1', apiLimiter, v1Routes);
 // --------------------------------------------------
 // Global Error Handler
 // --------------------------------------------------
