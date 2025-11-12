@@ -6,7 +6,7 @@
 // --------------------------------------------------
 // Node Modules
 // --------------------------------------------------
-import { Schema, model } from 'mongoose';
+import { Model, Schema, model } from 'mongoose';
 // --------------------------------------------------
 // Custom-Modules
 // --------------------------------------------------
@@ -111,4 +111,4 @@ const userSchema = new Schema<IUser>(
 // --------------------------------------------------
 // User Model
 // --------------------------------------------------
-export const UserModel = model<IUser>('User', userSchema);
+export const UserModel: Model<IUser> = model<IUser>('User', userSchema);

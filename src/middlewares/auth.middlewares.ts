@@ -35,7 +35,8 @@ export const isAuthenticated = async (
   try {
     // 1️⃣ Get token from headers or cookies
     const token =
-      req.cookies['token'] || req.headers['authorization']?.split(' ')[1];
+      req.cookies['access_token'] ||
+      req.headers['authorization']?.split(' ')[1];
 
     if (!token) {
       return res.status(401).json({

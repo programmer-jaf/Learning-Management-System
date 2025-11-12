@@ -39,9 +39,16 @@ export interface ICourse extends Document {
   reviews?: Types.ObjectId[]; // populate Reviews
   rating: number;
   reviewsCount: number;
-
+  status: {
+    type: string;
+    enum: 'draft' | 'published' | 'unpublished';
+    default: 'draft';
+  };
   published: boolean;
-
+  launchTimer?: {
+    type: Date;
+    default: null;
+  };
   createdAt: Date;
   updatedAt: Date;
 }
