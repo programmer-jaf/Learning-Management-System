@@ -61,10 +61,33 @@ const courseSchema = new Schema<ICourse>(
         ref: 'Curriculum',
       },
     ],
-    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
-    rating: { type: Number, default: 0 },
-    reviewsCount: { type: Number, default: 0 },
-    published: { type: Boolean, default: false },
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Review',
+      },
+    ],
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    reviewsCount: {
+      type: Number,
+      default: 0,
+    },
+    published: {
+      type: Boolean,
+      default: false,
+    },
+    status: {
+      type: String,
+      enum: ['draft', 'published'],
+      default: 'draft',
+    },
+    launchTimer: {
+      type: Boolean,
+      default: null,
+    },
   },
   { timestamps: true }
 );
