@@ -15,9 +15,21 @@ import { ICourse } from '@interfaces/course.interfaces';
 
 const courseSchema = new Schema<ICourse>(
   {
-    instructor: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    title: { type: String, required: true, trim: true },
-    slug: { type: String, required: true, unique: true },
+    instructor: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     introVideo: { type: String },
     description: {
       details: { type: String },
